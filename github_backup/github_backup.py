@@ -330,7 +330,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def get_auth(args, encode=True):
+def get_auth(args, encode=True, for_git_cli=False):
     auth = None
 
     if args.osx_keychain_item_name:
@@ -359,7 +359,10 @@ def get_auth(args, encode=True):
         if not args.as_app:
             auth = args.token + ':' + 'x-oauth-basic'
         else:
-            auth = args.token
+            if not for_git_cli:
+                auth = args.token
+            else:
+                auth = 'x-access-token:' + args.token
     elif args.username:
         if not args.password:
             args.password = getpass.getpass()
@@ -405,7 +408,7 @@ def get_github_repo_url(args, repository):
     if repository.get('is_gist'):
         return repository['git_pull_url']
 
-    auth = get_auth(args, False)
+    auth = get_auth(args, encode=False, for_git_cli=True)
     if auth:
         repo_url = 'https://{0}@{1}/{2}/{3}.git'.format(
             auth,
