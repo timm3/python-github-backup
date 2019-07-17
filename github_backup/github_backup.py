@@ -515,6 +515,8 @@ def _construct_request(per_page, page, query_args, template, auth, as_app=None):
         if not as_app:
             request.add_header('Authorization', 'Basic '.encode('ascii') + auth)
         else:
+            if not PY2:
+                auth = auth.encode('ascii')
             request.add_header('Authorization', 'token '.encode('ascii') + auth)
             request.add_header('Accept', 'application/vnd.github.machine-man-preview+json')
     log_info('Requesting {}?{}'.format(template, querystring))
