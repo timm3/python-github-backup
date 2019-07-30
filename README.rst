@@ -31,10 +31,10 @@ CLI Usage is as follows::
                   [-o OUTPUT_DIRECTORY] [-i] [--starred] [--all-starred]
                   [--watched] [--followers] [--following] [--all]
                   [--issues] [--issue-comments] [--issue-events] [--pulls]
-                  [--pull-comments] [--pull-commits] [--labels] [--hooks]
-                  [--milestones] [--repositories] [--releases] [--assets]
-                  [--bare] [--lfs] [--wikis] [--gists] [--starred-gists]
-                  [--skip-existing]
+                  [--pull-comments] [--pull-commits] [--pull-reviews]
+                  [--labels] [--hooks] [--milestones] [--repositories]
+                  [--releases] [--assets] [--bare] [--lfs]
+                  [--wikis] [--gists] [--starred-gists] [--skip-existing]
                   [-L [LANGUAGES [LANGUAGES ...]]] [-N NAME_REGEX]
                   [-H GITHUB_HOST] [-O] [-R REPOSITORY] [-P] [-F]
                   [--prefer-ssh] [-v]
@@ -72,6 +72,7 @@ CLI Usage is as follows::
       --pulls               include pull requests in backup
       --pull-comments       include pull request review comments in backup
       --pull-commits        include pull request commits in backup
+      --pull-reviews        include pull request reviews in backup
       --labels              include labels in backup
       --hooks               include hooks in backup (works only when
                             authenticated)
