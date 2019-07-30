@@ -236,6 +236,13 @@ def parse_args():
                         action='store_true',
                         dest='include_pull_details',
                         help='include more pull request details in backup [*]')
+    parser.add_argument('--pull-reviews',
+                        action='store_true',
+                        dest='include_pull_reviews',
+                        help='include pull request reviews in backup. '
+                             'This does not include comments on the reviews, but `--pull-comments` will get those. '
+                             'Use this with `--pull-comments` to capture change suggestions, which appear to be '
+                             'divided between two API endpoints by GitHub.')
     parser.add_argument('--labels',
                         action='store_true',
                         dest='include_labels',
@@ -883,6 +890,7 @@ def backup_pulls(args, repo_cwd, repository, repos_template):
         len(list(pulls.keys()))))
     comments_template = _pulls_template + '/{0}/comments'
     commits_template = _pulls_template + '/{0}/commits'
+    reviews_template = _pulls_template + '/{0}/reviews'
     for number, pull in list(pulls.items()):
         if args.include_pull_comments or args.include_everything:
             template = comments_template.format(number)
@@ -890,6 +898,9 @@ def backup_pulls(args, repo_cwd, repository, repos_template):
         if args.include_pull_commits or args.include_everything:
             template = commits_template.format(number)
             pulls[number]['commit_data'] = retrieve_data(args, template)
+        if args.include_pull_reviews or args.include_everything:
+            template = reviews_template.format(number)
+            pulls[number]['review_data'] = retrieve_data(args, template)
 
         pull_file = '{0}/{1}.json'.format(pulls_cwd, number)
         with codecs.open(pull_file, 'w', encoding='utf-8') as f:
